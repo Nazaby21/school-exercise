@@ -4,6 +4,7 @@ package com.school.exercise2.controller;
 import com.school.exercise2.dto.StudentRequest;
 import com.school.exercise2.dto.StudentResponse;
 import com.school.exercise2.service.StudentService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -24,11 +25,11 @@ public class StudentController {
         return studentService.findAll(page, size);
     }
     @PostMapping
-    public ResponseEntity<StudentResponse> create(@RequestBody StudentRequest studentRequest){
+    public ResponseEntity<StudentResponse> create(@Valid @RequestBody StudentRequest studentRequest){
         return ResponseEntity.ok(studentService.create(studentRequest));
     }
     @PutMapping("/{id}")
-    public StudentResponse update(@PathVariable Long id, @RequestBody StudentRequest request) {
+    public StudentResponse update(@PathVariable Long id,@Valid @RequestBody StudentRequest request) {
         return studentService.update(id, request);
     }
     @DeleteMapping("/{id}")

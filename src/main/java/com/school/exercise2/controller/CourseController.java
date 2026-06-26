@@ -3,6 +3,7 @@ package com.school.exercise2.controller;
 import com.school.exercise2.dto.CourseRequest;
 import com.school.exercise2.dto.CourseResponse;
 import com.school.exercise2.service.CourseService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -23,11 +24,11 @@ public class CourseController {
         return courseService.findAll(page, size);
     }
     @PostMapping
-    public ResponseEntity<CourseResponse> create(@RequestBody CourseRequest request){
+    public ResponseEntity<CourseResponse> create(@Valid @RequestBody CourseRequest request){
         return ResponseEntity.ok(courseService.create(request));
     }
     @PutMapping("/{id}")
-    public CourseResponse update(@PathVariable Long id, @RequestBody CourseRequest request) {
+    public CourseResponse update(@PathVariable Long id,@Valid @RequestBody CourseRequest request) {
         return courseService.update(id, request);
     }
     @DeleteMapping("/{id}")
