@@ -13,4 +13,5 @@ public class StudentResponse {
     private String name;
     private String email;
     private Gender gender;
+    private CardResponse card;
 }

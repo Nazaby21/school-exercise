@@ -13,4 +13,5 @@ public class StudentRequest {
     @NotBlank(message = "Email is required")
     private String email;
     private Gender gender;
+    private CardRequest card;
 }

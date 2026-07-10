@@ -1,8 +1,11 @@
 package com.school.exercise2.service.impl;
 
+import com.school.exercise2.dto.CardResponse;
 import com.school.exercise2.dto.StudentRequest;
 import com.school.exercise2.dto.StudentResponse;
+import com.school.exercise2.model.Card;
 import com.school.exercise2.model.Student;
+import com.school.exercise2.repository.CardRepository;
 import com.school.exercise2.repository.StudentRepository;
 import com.school.exercise2.service.StudentService;
 import lombok.RequiredArgsConstructor;
@@ -12,10 +15,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
+
 @Service
 @RequiredArgsConstructor
 public class StudentServiceImpl implements StudentService {
     private final StudentRepository studentRepository;
+    private final CardRepository cardRepository;
 
     @Override
     public StudentResponse findById(Long id) {
@@ -32,27 +38,48 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public StudentResponse create(StudentRequest request) {
+
         Student student = new Student(
                 request.getName(),
                 request.getEmail(),
                 request.getGender()
         );
+
+        if (request.getCard() != null) {
+            Card card = new Card();
+            card.setCardNumber(request.getCard().getCardNumber());
+            // Generate automatically
+            card.setIssueDate(LocalDate.now());
+            card.setExpiryDate(LocalDate.now().plusYears(4));
+            card.setStudent(student);
+            student.setCard(card);
+        }
         Student savedStudent = studentRepository.save(student);
         return savedStudent.toResponse();
     }
 
     @Override
     public StudentResponse update(Long id, StudentRequest request) {
+
         Student student = studentRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
         student.setName(request.getName());
         student.setEmail(request.getEmail());
         student.setGender(request.getGender());
-
-        Student updatedStudent = studentRepository.save(student);
-
-        return updatedStudent.toResponse();
+        if (request.getCard() != null) {
+            Card card = student.getCard();
+            if (card == null) {
+                card = new Card();
+                card.setIssueDate(LocalDate.now());
+                card.setExpiryDate(LocalDate.now().plusYears(4));
+                card.setStudent(student);
+                student.setCard(card);
+            }
+            card.setCardNumber(request.getCard().getCardNumber());
+        }
+        Student updated = studentRepository.save(student);
+        return updated.toResponse();
     }
 
     @Override
