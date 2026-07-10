@@ -4,6 +4,7 @@ import com.school.exercise2.dto.CourseRequest;
 import com.school.exercise2.dto.CourseResponse;
 import com.school.exercise2.service.CourseService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class CourseController {
         return ResponseEntity.ok(courseService.findById(id));
     }
     @GetMapping
-    public Page<CourseResponse> findAll(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+    public Page<CourseResponse> findAll(@RequestParam(defaultValue = "0") @Min(0) int page, @RequestParam(defaultValue = "10") int size) {
         return courseService.findAll(page, size);
     }
     @PostMapping

@@ -5,6 +5,7 @@ import com.school.exercise2.dto.StudentRequest;
 import com.school.exercise2.dto.StudentResponse;
 import com.school.exercise2.service.StudentService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class StudentController {
         return ResponseEntity.ok(studentService.findById(id));
     }
     @GetMapping
-    public Page<StudentResponse> findAll(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+    public Page<StudentResponse> findAll(@RequestParam(defaultValue = "0") @Min(0) int page, @RequestParam(defaultValue = "10") int size) {
         return studentService.findAll(page, size);
     }
     @PostMapping
