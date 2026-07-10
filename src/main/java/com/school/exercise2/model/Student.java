@@ -22,6 +22,8 @@ public class Student {
     private String name;
     private String email;
     private Gender gender;
+    @OneToOne(mappedBy = "student")
+    private Course course;
 
     public Student(String name, String email, Gender gender) {
         this.name = name;

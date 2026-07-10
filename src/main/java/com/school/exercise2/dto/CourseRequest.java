@@ -1,6 +1,7 @@
 package com.school.exercise2.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +10,7 @@ import lombok.Setter;
 public class CourseRequest {
     @NotBlank(message = "Course name is required")
     private String name;
-    @NotBlank(message = "Student name is required")
-    private String studentName;
+    @NotNull(message = "Student id is required")
+    private Long studentId;
     private String description;
 }

@@ -8,7 +8,6 @@ import com.school.exercise2.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -33,7 +32,11 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public StudentResponse create(StudentRequest request) {
-        Student student = new Student(request.getName(), request.getEmail(), request.getGender());
+        Student student = new Student(
+                request.getName(),
+                request.getEmail(),
+                request.getGender()
+        );
         Student savedStudent = studentRepository.save(student);
         return savedStudent.toResponse();
     }
